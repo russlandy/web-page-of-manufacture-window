@@ -8,8 +8,6 @@ const images = () => {
     imgPopup.style.justifyContent = 'center';
     imgPopup.style.alignItems = 'center';
     imgPopup.style.display = 'none';
-
-    document.body.style.overflow = 'hidden';
     
 
     imgPopup.appendChild(bigImage);
@@ -24,12 +22,16 @@ const images = () => {
             const path = target.parentNode.getAttribute('href');
             bigImage.setAttribute('src', path);
             bigImage.style.width = '30%';
+            document.body.style.overflow = "hidden";            
+
         }
 
         if (target && target.matches('div.popup')) {
             imgPopup.style.display = 'none';
+            document.body.style.overflow = "";
         }
     });
+    
 };
 
 export default images;

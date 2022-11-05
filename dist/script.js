@@ -15385,7 +15385,6 @@ const images = () => {
   imgPopup.style.justifyContent = 'center';
   imgPopup.style.alignItems = 'center';
   imgPopup.style.display = 'none';
-  document.body.style.overflow = 'hidden';
   imgPopup.appendChild(bigImage);
   workSection.addEventListener('click', e => {
     e.preventDefault();
@@ -15396,10 +15395,12 @@ const images = () => {
       const path = target.parentNode.getAttribute('href');
       bigImage.setAttribute('src', path);
       bigImage.style.width = '30%';
+      document.body.style.overflow = "hidden";
     }
 
     if (target && target.matches('div.popup')) {
       imgPopup.style.display = 'none';
+      document.body.style.overflow = "";
     }
   });
 };
@@ -15422,7 +15423,8 @@ const modals = () => {
     const trigger = document.querySelectorAll(triggerSelector),
           modal = document.querySelector(modalSelector),
           windows = document.querySelectorAll('[data-modal]'),
-          close = document.querySelector(closeSelector);
+          close = document.querySelector(closeSelector),
+          scroll = calsScroll();
     trigger.forEach(item => {
       item.addEventListener('click', e => {
         if (e.target) {
@@ -15433,7 +15435,8 @@ const modals = () => {
           item.style.display = 'none';
         });
         modal.style.display = "block";
-        document.body.style.overflow = "hidden"; // document.body.classList.add('modal-open');
+        document.body.style.overflow = "hidden";
+        document.body.style.marginRight = `${scroll}px`; // document.body.classList.add('modal-open');
       });
     });
     close.addEventListener('click', () => {
@@ -15441,7 +15444,8 @@ const modals = () => {
         item.style.display = 'none';
       });
       modal.style.display = "none";
-      document.body.style.overflow = ""; // document.body.classList.remove('modal-open');
+      document.body.style.overflow = "";
+      document.body.style.marginRight = `0px`; // document.body.classList.remove('modal-open');
     });
     modal.addEventListener('click', e => {
       if (e.target === modal && closeClickOverlay) {
@@ -15449,7 +15453,8 @@ const modals = () => {
           item.style.display = 'none';
         });
         modal.style.display = "none";
-        document.body.style.overflow = ""; // document.body.classList.remove('modal-open');
+        document.body.style.overflow = "";
+        document.body.style.marginRight = `0px`; // document.body.classList.remove('modal-open');
       }
     });
   }
@@ -15461,11 +15466,24 @@ const modals = () => {
     }, time);
   }
 
+  function calsScroll() {
+    let div = document.createElement('div');
+    div.style.width = '50px';
+    div.style.height = '50px';
+    div.style.overflowY = 'scroll';
+    div.style.visibility = 'hidden';
+    document.body.appendChild(div);
+    let scrollWidth = div.offsetWidth - div.clientWidth;
+    div.remove();
+    return scrollWidth;
+  }
+
   bindmodal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
   bindmodal('.phone_link', '.popup', '.popup .popup_close');
   bindmodal('.popup_calc_btn', '.popup_calc', '.popup_calc_close');
   bindmodal('.popup_calc_button', '.popup_calc_profile', '.popup_calc_profile_close', false);
-  bindmodal('.popup_calc_profile_button', '.popup_calc_end', '.popup_calc_end_close', false); // showModalByTime('.popup', 60000);
+  bindmodal('.popup_calc_profile_button', '.popup_calc_end', '.popup_calc_end_close', false);
+  showModalByTime('.popup', 60000);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
