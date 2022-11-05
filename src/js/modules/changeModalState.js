@@ -34,6 +34,7 @@ const changeModalState = (state) => {
                     case 'SELECT' :
                         state[prop] = item.value;
                         break;
+                    
 
                 }
 
